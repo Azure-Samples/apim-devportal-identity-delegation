@@ -1,4 +1,7 @@
 # Azure API Management (APIM) Developer portal identity delegation with Auth0
+<p align="center">
+  <img src="./src/images/APIMIdentityDelegationSample.drawio.png">
+</p>
 This project is created as an example for using identity delegation with Auth0 and Azure API Management (APIM) Developer portal.
 
 ## 📝 Demo
