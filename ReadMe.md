@@ -147,3 +147,5 @@ Common issues:
 - 403 Forbidden: Make sure the web app has `Contributor` role access to the APIM instance.
 - 500 Internal Server Error: make sure the web app is up and running. You can check the logs in the Log Stream.
 
+## 🚩 Contact
+If you have any questions, please feel free to reach out to me at zoeyzuouk@gmail.com or create an issue in this repo.
