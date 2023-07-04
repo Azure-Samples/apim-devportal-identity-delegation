@@ -6,9 +6,9 @@ This project is created as an example for using identity delegation with Auth0 a
 
 ## 📝 Demo
 ### SignUp
-![SignUp](./src/images/signup.gif)
+![SignUp](./src/images/sign-up.gif)
 ### SignIn
-![SignIn](./src/images/signin.gif)
+![SignIn](./src/images/sign-in.gif)
 
 ## 🛠️ Prerequisites
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
