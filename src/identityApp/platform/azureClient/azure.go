@@ -6,11 +6,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"os"
 	"strings"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/gin-gonic/gin"
 	"github.com/tidwall/gjson"
 )
 
@@ -35,40 +37,30 @@ func getTimeAfterHours(hours int) string {
 	return formattedTime
 }
 
-func GetBearerTokenFromAzAD() (string, error) {
-	// Azure AD Application ID and Secret
-	clientId := os.Getenv("AZURE_CLIENT_ID")
-	clientSecret := os.Getenv("AZURE_CLIENT_SECRET")
-	tenantId := os.Getenv("AZURE_TENANT_ID")
-	// Construct the OAuth2.0 token request URL
-	tokenUrl := fmt.Sprintf("https://login.microsoftonline.com/%s/oauth2/v2.0/token", tenantId)
-	data := url.Values{}
-	data.Set("grant_type", "client_credentials")
-	data.Set("client_id", clientId)
-	data.Set("client_secret", clientSecret)
-	data.Set("scope", "https://management.azure.com/.default")
+// Default Azure credential will use the following credential chain to authenticate:
+// 1. Environment Credential
+// 2. Workload Identity Credential
+// 3. Managed Identity Credential
+// 4. Azure CLI Credential
+// https://pkg.go.dev/github.com/Azure/azure-sdk-for-go/sdk/azidentity#DefaultAzureCredential
+func GetTokenViaGoSDK(ctx *gin.Context) (string, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 
-	// Execute the token request
-	req, err := http.NewRequest("POST", tokenUrl, strings.NewReader(data.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	// Send the HTTP request to obtain an Azure AD access token
-	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("Error creating request: %v", err)
-	}
-	defer resp.Body.Close()
-
-	// Read the HTTP response body and extract the Azure AD access token
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", fmt.Errorf("Error reading response body: %v", err)
+		ctx.String(http.StatusInternalServerError, err.Error())
+		return "", err
 	}
 
-	accessToken := gjson.GetBytes(body, "access_token").String()
-	fmt.Println("Azure AD Access Token: " + accessToken)
+	token, err := cred.GetToken(ctx, policy.TokenRequestOptions{
+		Scopes: []string{"https://management.azure.com/.default"},
+	})
 
-	return accessToken, nil
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, err.Error())
+		return "", err
+	}
+
+	return token.Token, nil
 }
 
 func GetSharedAccessTokenFromAPIM(accessToken, uid string) (string, error) {

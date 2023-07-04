@@ -4,7 +4,7 @@ param suffix string
 param acrName string
 param acrRepoName string = 'identity'
 param imageTag string = 'latest'
-param apprClientId string
+// param apprClientId string
 // Params passed for APIM
 @minLength(1)
 param publisherEmail string
@@ -14,8 +14,8 @@ param publisherName string
 
 @secure()
 param delegationKey string = ''
-@secure()
-param apprClientSecret string = ''
+// @secure()
+// param apprClientSecret string = ''
 @secure()
 param auth0ClientSecret string = ''
 
@@ -23,7 +23,7 @@ param auth0ClientSecret string = ''
 param auth0ClientId string = ''
 param auth0Domain string
 
-param apprSpOID string // App registration "apim-sample-zzuo"'s service principal object id
+// param apprSpOID string // App registration "apim-sample-zzuo"'s service principal object id
 param acrPullRoleId string = '7f951dda-4ed3-4680-a7ca-43fe172d538d' // AcrPull
 param apimContributorRoleId string = 'b24988ac-6180-42a0-ab88-20f7382dd24c' // API Management Service Contributor
 // Create a resource group
@@ -76,8 +76,8 @@ module webappsettings 'modules/webapp-settings.bicep' = {
     rgName: resourceGroup.name
     developerPortalUrl: 'https://${apim.outputs.name}.developer.azure-api.net/'
     apimResourceUri: apim.outputs.id
-    azureClientId: apprClientId
-    azureClientSecret: apprClientSecret
+    // azureClientId: apprClientId
+    // azureClientSecret: apprClientSecret
   }
 }
 
@@ -106,7 +106,7 @@ module acrRoleAssignment './modules/acr-role-assignment.bicep' = {
 
 
 module apimRoleAssignmentSystemAssign './modules/apim-role-assignment.bicep' = {
-  name: 'apim-role-assignment-1'
+  name: 'apim-role-assignment'
   scope: resourceGroup
   params: {
     principalId: webapp.outputs.webappSystemAssignedIdentityId
@@ -119,16 +119,16 @@ module apimRoleAssignmentSystemAssign './modules/apim-role-assignment.bicep' = {
   ]
 }
 
-module apimRoleAssignmentAppreg './modules/apim-role-assignment.bicep' = {
-  name: 'apim-role-assignment-2'
-  scope: resourceGroup
-  params: {
-    principalId: apprSpOID
-    apimName: apim.outputs.name
-    roleId: apimContributorRoleId
-  }
-  dependsOn: [
-    apim
-    webapp
-  ]
-}
+// module apimRoleAssignmentAppreg './modules/apim-role-assignment.bicep' = {
+//   name: 'apim-role-assignment-2'
+//   scope: resourceGroup
+//   params: {
+//     principalId: apprSpOID
+//     apimName: apim.outputs.name
+//     roleId: apimContributorRoleId
+//   }
+//   dependsOn: [
+//     apim
+//     webapp
+//   ]
+// }

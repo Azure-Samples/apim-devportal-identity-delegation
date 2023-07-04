@@ -23,17 +23,13 @@ func Handler(auth *authenticator.Authenticator) gin.HandlerFunc {
 			return
 		}
 		operation := session.Get("operation").(string)
-		token_from_local := os.Getenv("token_from_local")
-		accessToken, err := azureClient.GetBearerTokenFromAzAD()
+		tokenFromManagedIdentity, err := azureClient.GetTokenViaGoSDK(ctx)
 		if err != nil {
 			ctx.String(http.StatusInternalServerError, err.Error())
 			return
 		}
 
-		fmt.Println("Access Token from AzAD:", accessToken)
-		fmt.Println("Access Token from AzAD:", token_from_local)
-
-		handleSignUpAndSignIn(ctx, auth, token_from_local, operation)
+		handleSignUpAndSignIn(ctx, auth, tokenFromManagedIdentity, operation)
 	}
 }
 

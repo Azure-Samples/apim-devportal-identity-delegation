@@ -1,4 +1,6 @@
-## Configure Auth0
+## Deploy and Run
+
+### Configure Auth0
 1. Create a new Auth0 account at [Auth0](https://auth0.com/).
 2. Select Applications in the left menu and click the Create Application button.
 3. Name your new app and select Regular Web App Applications.
@@ -9,27 +11,25 @@
     - http://localhost:3000/callback
 
     Web app URL:
-    - https://<your-web-app-name>.azurewebsites.net/callback
+    - https://\<your-web-app-name\>.azurewebsites.net/callback
     - Or fetch it from the Overview tab of your web app in the Azure portal. Copy the Default Domain value and append /callback to it.
 
     APIM Developer Portal URL:
-    - https://<your-apim-name>.developer.azure-api.net/callback
+    - https://\<your-apim-name\>.developer.azure-api.net/callback
     - Or fetch it from the Overview tab of your APIM instance in the Azure portal. Copy the Developer Portal URL value and append /callback to it.
 7. Add the following URL to the Allowed Logout URLs list:
     Localhost:
     - http://localhost:3000
 
     Web app URL:
-    - https://<your-web-app-name>.azurewebsites.net
+    - https://\<your-web-app-name\>.azurewebsites.net
 
     APIM Developer Portal URL:
-    - https://<your-apim-name>.developer.azure-api.net
+    - https://\<your-apim-name\>.developer.azure-api.net
 8. Scroll down and click the Save Changes button.
 9. Copy and paste the Domain, Client ID, and Client Secret values into the `.env` file in the root of this project. They should match to the following keys respectively: `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`.
 
-## Configure Role Based Access Control (RBAC)
-
-### Create Azure App registration 
+### Create Azure App registration for RBAC (Think we don't need it)
 We need to create an Azure App registration to allow our web app to access the APIM instance. This is done by following these steps:
 1. Go to the Azure portal and select App registrations.
 2. Click the New registration button.
@@ -47,3 +47,21 @@ We need to create an Azure App registration to allow our web app to access the A
 3. Go to Azure portal home page and search for Azure AD. Select Azure Active Directory.
 4. Click on the Enterprise applications tab and search for your app registration. Select it.
 5. In the Enterprise Application's overview page, you will find the "Object ID" field. This is the object ID of the associated service principal. This matches to the `APPR_SP_OID` key in the `.env` file.
+
+### Deploy Azure resources
+- Run the following command to deploy the Azure resources:
+    ```bash
+    make deploy
+    ```
+- This will deploy the following resources:
+    - Azure Container Registry
+    - Azure APIM instance
+    - Azure App Service Plan
+    - Azure Web App
+- This will also give the following permissions:
+    - Azure Web App `ACRPull` role access to the Azure Container Registry.
+    - Azure Web App `Contributor` role access to the Azure APIM instance. This is for creating users in the APIM instance.
+- Run `make buildimage` and `make pushimage` to build and push the docker image to the Azure Container Registry with the following .env variables:
+    - `ACR_NAME`
+    - `ACR_REPO_NAME`
+    - `IMAGE_TAG`

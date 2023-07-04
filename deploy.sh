@@ -43,9 +43,6 @@ az deployment sub create \
                 delegationKey="${DELEGATION_KEY}" \
                 acrName="${ACR_NAME}" \
                 acrRepoName="${ACR_REPO_NAME}" \
-                imageTag="${IMAGE_TAG}" \
-                apprClientId="${APPR_CLIENT_ID}" \
-                apprClientSecret="${APPR_CLIENT_SECRET}" \
-                apprSpOID="${APPR_SP_OID}" \
+                imageTag="${IMAGE_TAG}"
 
 echo -e "\n 🎉 Deployment complete\n"

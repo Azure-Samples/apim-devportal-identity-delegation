@@ -5,7 +5,6 @@ import (
 	"crypto/rand"
 	"crypto/sha512"
 	"encoding/base64"
-	"fmt"
 	"net/http"
 	"net/url"
 	"os"
@@ -34,8 +33,7 @@ func Handler(auth *authenticator.Authenticator) gin.HandlerFunc {
 		}
 
 		if !isRequestFromAPIM {
-			// ctx.String(http.StatusInternalServerError, "Request is not from APIM.")
-			fmt.Println("Request is not from APIM. But carry on.")
+			ctx.String(http.StatusInternalServerError, "Request is not from APIM.")
 		}
 
 		state, err := generateRandomState()
@@ -53,12 +51,11 @@ func Handler(auth *authenticator.Authenticator) gin.HandlerFunc {
 			ctx.String(http.StatusInternalServerError, err.Error())
 			return
 		}
-		ctx.Redirect(http.StatusTemporaryRedirect, auth.AuthCodeURL(state))
-		// if operation == "SignUp" || operation == "SignIn" {
-		// 	ctx.Redirect(http.StatusTemporaryRedirect, auth.AuthCodeURL(state))
-		// } else {
-		// 	ctx.String(http.StatusBadRequest, "Invalid operation.")
-		// }
+		if operation == "SignUp" || operation == "SignIn" {
+			ctx.Redirect(http.StatusTemporaryRedirect, auth.AuthCodeURL(state))
+		} else {
+			ctx.String(http.StatusBadRequest, "Invalid operation.")
+		}
 
 	}
 }

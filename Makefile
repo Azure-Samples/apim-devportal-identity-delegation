@@ -33,7 +33,7 @@ buildimage: ## 🐳 Build docker image
 	@docker build -t $(ACR_FQDN)/${ACR_REPO_NAME}:$(IMAGE_TAG) -f src/identityApp/Dockerfile .
 
 runimage: ## 🐳 Run docker image
-	@docker run -it --rm -p 8080:80 $(ACR_FQDN)/${ACR_REPO_NAME}:$(IMAGE_TAG)
+	@docker run -it --rm -p 3000:3000 $(ACR_FQDN)/${ACR_REPO_NAME}:$(IMAGE_TAG)
 
 pushimage: ## 🐳 Push docker image
 	az acr login --name ${ACR_NAME} && docker push $(ACR_FQDN)/${ACR_REPO_NAME}:$(IMAGE_TAG)

@@ -6,14 +6,12 @@ param apimName string
 param rgName string 
 param developerPortalUrl string 
 param apimResourceUri string
-param azureClientId string
-
-
+// param azureClientId string
 param azureTenantId string = subscription().tenantId
 param subscriptionId string = subscription().subscriptionId
 
-@secure()
-param azureClientSecret string = ''
+// @secure()
+// param azureClientSecret string = ''
 
 @description('The Auth0 secret is stored in a key vault and retrieved using a user assigned identity')
 @secure()
@@ -37,7 +35,7 @@ resource appSettings 'Microsoft.Web/sites/config@2022-03-01' = {
     APIM_RESOURCE_GROUP: rgName
     APIM_RESOURCE_URI: apimResourceUri
     DEVELOPER_PORTAL_URL: developerPortalUrl
-    AZURE_CLIENT_ID: azureClientId
-    AZURE_CLIENT_SECRET: azureClientSecret
+    // AZURE_CLIENT_ID: azureClientId
+    // AZURE_CLIENT_SECRET: azureClientSecret
   }
 }
