@@ -18,9 +18,9 @@ This project is created as an example for using identity delegation with Auth0 a
 
 ## 💻 Setup instructions
 ### 🧩 Clone the repo 🧩
-    ```bash
+    
     git clone https://github.com/zoeyzuo-se/azure-apim-identity-delegation-sample.git
-    ```
+    
 
 ### 🔒 Configure Auth0 🔒
 
