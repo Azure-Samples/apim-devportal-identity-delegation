@@ -46,7 +46,7 @@ This project is created as an example for using identity delegation with Auth0 a
 9. Copy and paste the Domain, Client ID, and Client Secret values into the `.env` file in the root of this project. They should match to the following keys respectively: `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`.
 
 ### 🌳 Environment Variables 🌳
-To run the environment successfully, please make sure to fill in the following environment variables in the `.env` file in the root of this project.
+To run the environment successfully, rename the `.env.example` file to `.env` and provide the following values:
 
 Here's a brief description of each environment variable:
 
@@ -91,3 +91,59 @@ Publish your API Management developer portal following the tutorial [here](https
 SignUp will create a user in the Auth0 Database and also create a user in the APIM instance.
 
 Login will authenticate the user with Auth0 and then delegate the user to the APIM instance.
+
+## 🏃‍♂️ Run the app locally
+- Create an .env file under `src/identityApp` and provide the following values:
+    ```
+    AUTH0_DOMAIN=<your-auth0-domain>
+    AUTH0_CLIENT_ID=<your-auth0-client-id>
+    AUTH0_CLIENT_SECRET=<your-auth0-client-secret>
+    ```
+- Once you've set your Auth0 credentials in the `.env` file, run `go mod vendor` to download the Go dependencies.
+- Run `go run main.go` to start the app and navigate to [http://localhost:3000/](http://localhost:3000/).
+- If everything is working correctly, you should be able to see the following page:
+![homepage](./src/images/local-success.png)
+
+## 📝 Notes
+### AzureDefaultCredentials
+The AzureDefaultCredentials is used to authenticate with Azure resources.
+```go
+func GetTokenViaGoSDK(ctx *gin.Context) (string, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, err.Error())
+		return "", err
+	}
+
+	token, err := cred.GetToken(ctx, policy.TokenRequestOptions{
+		Scopes: []string{"https://management.azure.com/.default"},
+	})
+
+	if err != nil {
+		ctx.String(http.StatusInternalServerError, err.Error())
+		return "", err
+	}
+
+	return token.Token, nil
+}
+```
+The NewDefaultAzureCredential will attempt to authenticate with each of these credential types, in the following order, stopping when one provides a token:
+- EnvironmentCredential
+- WorkloadIdentityCredential
+
+    If environment variable configuration is set by the Azure workload identity webhook. Use WorkloadIdentityCredential directly when not using the webhook or needing more control over its configuration.
+- ManagedIdentityCredential
+- AzureCLICredential
+
+Details can be found [here](https://pkg.go.dev/github.com/Azure/azure-sdk-for-go/sdk/azidentity#DefaultAzureCredential)
+
+In the deployed web app we are using the ManagedIdentityCredential.
+
+### 🐛 Debug tips
+If you are seeing unexpected errors, please go to Azure web app service and enable `Application logging` in the `App Service Log` page under `Monitor` and using [golang print statements](https://pkg.go.dev/fmt#Println). You should be able to see the logs in the Log Stream.
+
+Common issues:
+- 403 Forbidden: Make sure the web app has `Contributor` role access to the APIM instance.
+- 500 Internal Server Error: make sure the web app is up and running. You can check the logs in the Log Stream.
+
