@@ -24,6 +24,9 @@ This project is created as an example for using identity delegation with Auth0 a
 
 ### 🔒 Configure Auth0 🔒
 
+![ConfigureAuth0](./src/images/configure-auth0.gif)
+
+Detail steps:
 1. Create a new Auth0 account at [Auth0](https://auth0.com/).
     > If prompted, select `Database` for authentication.
 2. Select Applications in the left menu and click the Create Application button.
