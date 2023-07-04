@@ -57,7 +57,7 @@ Here's a brief description of each environment variable:
 - `SUFFIX`: The suffix for your environment.
 - `PUB_EMAIL`: Your public email address.
 - `PUB_NAME`: Your public name.
-- `DELEGATION_KEY`: Your delegation key.
+- `DELEGATION_KEY`: Your delegation key. This should be in base64 format. You can generate one [here](https://www.base64encode.org/).
 - `ACR_NAME`: The name of your Azure Container Registry (ACR). This should be globally unique.
 - `ACR_REPO_NAME`: The name of your ACR repository.
 - `IMAGE_TAG`: The tag for the Docker image.
