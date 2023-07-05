@@ -1,14 +1,22 @@
 # Azure API Management (APIM) Developer portal identity delegation with Auth0
 <p align="center">
-  <img src="./src/images/APIMIdentityDelegationSample.drawio.png">
+  <img src="./src/images/readme.drawio.png">
 </p>
 This project is created as an example for using identity delegation with Auth0 and Azure API Management (APIM) Developer portal.
 
 ## 📝 Demo
 ### SignUp
-![SignUp](./src/images/sign-up.gif)
+- Click on the `Sign Up` button on the top right corner when you are not an existing user in Auth0.
+- Switch to `Sign Up` and fill in the form and click on the `Sign Up` button.
+![SignUp1](./src/images/sign-up-1.gif)
+
+- You will be signed up in Auth0 and also in the APIM instance.
+![SignUp2](./src/images/sign-up-2.gif)
+
 ### SignIn
-![SignIn](./src/images/sign-in.gif)
+- Click on the `Sign In` button on the top right corner when you are an existing user in Auth0.
+- An user will be added to the APIM instance if the user is not an existing user in the APIM instance.
+![SignIn](./src/images/sign-in-1.gif)
 
 ## 🛠️ Prerequisites
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
