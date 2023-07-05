@@ -18,6 +18,10 @@ This project is created as an example for using identity delegation with Auth0 a
 - An user will be added to the APIM instance if the user is not an existing user in the APIM instance.
 ![SignIn](./src/images/sign-in-1.gif)
 
+## Disclaimer
+
+Please note that the setup instructions provided in this README are intended for macOS users. While some steps may be applicable to other operating systems, I cannot guarantee compatibility or provide specific instructions for platforms other than macOS.
+
 ## 🛠️ Prerequisites
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 - [Docker](https://docs.docker.com/get-docker/)
@@ -25,6 +29,8 @@ This project is created as an example for using identity delegation with Auth0 a
 - [Bicep VSCode extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-bicep)
 
 ## 💻 Setup instructions
+
+
 ### 🧩 Clone the repo 🧩
     
     git clone https://github.com/zoeyzuo-se/azure-apim-identity-delegation-sample.git
