@@ -69,7 +69,7 @@ func handleSignUpAndSignIn(ctx *gin.Context, auth *authenticator.Authenticator, 
 	if userExistInApim == false {
 		err = azureClient.CreateUserInAPIM(username, uid, accessToken)
 		if err != nil {
-			ctx.String(http.StatusInternalServerError, "Error creating user: %s", username, "error message:", err.Error())
+			ctx.String(http.StatusInternalServerError, "Error creating user: %s, error message: %s", username, err.Error())
 			return
 		}
 	}
