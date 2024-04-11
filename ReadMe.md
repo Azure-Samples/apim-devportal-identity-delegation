@@ -67,7 +67,7 @@ To run the environment successfully, rename the `.env.example` file to `.env` an
 
 Here's a brief description of each environment variable:
 
-- `PERSONAL_SUB_ID`: Your personal subscription ID.
+- `PERSONAL_SUB_ID`: Your Azure subscription ID.
 - `SUFFIX`: The suffix for your environment.
 - `PUB_EMAIL`: Your public email address.
 - `PUB_NAME`: Your public name.
@@ -75,6 +75,11 @@ Here's a brief description of each environment variable:
 - `ACR_NAME`: The name of your Azure Container Registry (ACR). This should be globally unique.
 - `ACR_REPO_NAME`: The name of your ACR repository.
 - `IMAGE_TAG`: The tag for the Docker image.
+- `AUTH0_CALLBACK_URL`: Your auth0 callback URL either localhost or your webapp | e.g http://localhost:3000/callback
+- `APIM_NAME`: The name of your APIM.
+- `APIM_RESOURCE_GROUP`: The name of your resource group.
+- `AZURE_SUBSCRIPTION_ID`: Your Azure subscription ID.
+- `DEVELOPER_PORTAL_URL`: The APIM developer portal URL.
 
 Additionally, you will need to obtain the following values from Auth0:
 
@@ -85,6 +90,11 @@ Additionally, you will need to obtain the following values from Auth0:
 Make sure to provide the correct values for these variables to ensure proper authentication and authorization within the environment.
 
 Note: It's important to keep sensitive information, such as personal IDs and secrets, private and secure. Be cautious when sharing your `.env` file or these values with others.
+
+Delegation key
+
+Make sure to add your delegation endpoint in your APIM with either your localhost or your webapp. Should look something like this: http://localhost:3000/delegation
+Then generate a delegation key and add it to the env variables in base64 format.
 
 ### 🚘 Deploy Azure resources 🚘
 - Run the following command to deploy the Azure resources:
@@ -112,6 +122,19 @@ Login will authenticate the user with Auth0 and then delegate the user to the AP
 ## 🏃‍♂️ Run the app locally
 - Create an .env file under `src/identityApp` and provide the following values:
     ```
+    PERSONAL_SUB_ID=<your-subscription-id>
+    SUFFIX=<your-suffix>
+    PUB_EMAIL=<your-public-email>
+    PUB_NAME=<your-public-name>
+    DELEGATION_KEY=<your-delegation-key-in-base-64>
+    ACR_NAME=<globally-unique-acr-name>
+    ACR_REPO_NAME=<your-acr-repo-name> | e.g identity
+    IMAGE_TAG=<your-image-tag> | e.g latest
+    AUTH0_CALLBACK_URL=<your-auth0-callback-url> | e.g http://localhost:3000/callback
+    APIM_NAME=<your-apim-name>
+    APIM_RESOURCE_GROUP=<your-apim-resource-group-name>
+    AZURE_SUBSCRIPTION_ID=<your-azure-subscription-id>
+    DEVELOPER_PORTAL_URL=<your-developer-portal-url>
     AUTH0_DOMAIN=<your-auth0-domain>
     AUTH0_CLIENT_ID=<your-auth0-client-id>
     AUTH0_CLIENT_SECRET=<your-auth0-client-secret>
